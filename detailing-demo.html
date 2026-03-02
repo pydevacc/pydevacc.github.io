@@ -1,0 +1,1637 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>BLACKCOAT — Детейлинг студия</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Manrope:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --black: #0a0a0a;
+    --dark: #111111;
+    --card: #161616;
+    --border: #232323;
+    --gold: #c9a84c;
+    --gold-light: #e8c97a;
+    --white: #f0ede8;
+    --gray: #888;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--black);
+    color: var(--white);
+    font-family: 'Manrope', sans-serif;
+    font-weight: 400;
+    line-height: 1.6;
+    overflow-x: hidden;
+  }
+
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E");
+    pointer-events: none;
+    z-index: 1000;
+    opacity: 0.4;
+  }
+
+  /* NAV */
+  nav {
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    z-index: 100;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 20px 48px;
+    background: linear-gradient(to bottom, rgba(10,10,10,0.96), transparent);
+    backdrop-filter: blur(8px);
+  }
+  .logo {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 28px;
+    letter-spacing: 4px;
+    color: var(--white);
+    text-decoration: none;
+  }
+  .logo span { color: var(--gold); }
+  .nav-links { display: flex; gap: 36px; list-style: none; }
+  .nav-links a {
+    color: var(--gray);
+    text-decoration: none;
+    font-size: 13px;
+    font-weight: 500;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    transition: color 0.2s;
+  }
+  .nav-links a:hover { color: var(--white); }
+  .nav-cta {
+    background: var(--gold) !important;
+    color: var(--black) !important;
+    padding: 10px 24px;
+    border-radius: 2px;
+    font-weight: 600 !important;
+  }
+  .nav-cta:hover { background: var(--gold-light) !important; }
+
+  /* HERO */
+  .hero {
+    min-height: 100vh;
+    position: relative;
+    display: flex;
+    align-items: flex-end;
+    overflow: hidden;
+  }
+
+  .hero-bg {
+    position: absolute;
+    inset: 0;
+    background-image: url('https://images.unsplash.com/photo-1607860108855-64acf2078ed9?w=1800&q=80');
+    background-size: cover;
+    background-position: center;
+    filter: brightness(0.35);
+    transform: scale(1.04);
+    transition: transform 8s ease;
+  }
+
+  .hero-bg.loaded { transform: scale(1); }
+
+  .hero-overlay {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(
+      to top,
+      rgba(10,10,10,1) 0%,
+      rgba(10,10,10,0.6) 40%,
+      rgba(10,10,10,0.1) 100%
+    );
+  }
+
+  .hero-content {
+    position: relative;
+    z-index: 2;
+    padding: 80px 48px 80px;
+    max-width: 760px;
+  }
+
+  .hero-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background: rgba(201,168,76,0.12);
+    border: 1px solid rgba(201,168,76,0.35);
+    color: var(--gold);
+    padding: 6px 16px;
+    border-radius: 100px;
+    font-size: 12px;
+    font-weight: 600;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    margin-bottom: 28px;
+    animation: fadeUp 0.6s ease both;
+  }
+  .hero-badge::before {
+    content: '';
+    width: 6px; height: 6px;
+    border-radius: 50%;
+    background: var(--gold);
+    animation: pulse 2s infinite;
+  }
+  @keyframes pulse { 0%,100%{opacity:1}50%{opacity:0.3} }
+
+  .hero h1 {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: clamp(72px, 9vw, 130px);
+    line-height: 0.9;
+    letter-spacing: 2px;
+    margin-bottom: 24px;
+    animation: fadeUp 0.6s ease 0.1s both;
+  }
+  .hero h1 em { font-style: normal; color: var(--gold); }
+
+  .hero-desc {
+    color: rgba(240,237,232,0.7);
+    font-size: 17px;
+    max-width: 480px;
+    margin-bottom: 40px;
+    animation: fadeUp 0.6s ease 0.2s both;
+  }
+
+  .hero-actions {
+    display: flex;
+    gap: 16px;
+    align-items: center;
+    animation: fadeUp 0.6s ease 0.3s both;
+    flex-wrap: wrap;
+  }
+
+  .btn-primary {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    background: var(--gold);
+    color: var(--black);
+    padding: 16px 32px;
+    border-radius: 2px;
+    font-weight: 700;
+    font-size: 14px;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    text-decoration: none;
+    transition: all 0.2s;
+  }
+  .btn-primary:hover {
+    background: var(--gold-light);
+    transform: translateY(-2px);
+    box-shadow: 0 8px 32px rgba(201,168,76,0.35);
+  }
+
+  .btn-secondary {
+    color: rgba(240,237,232,0.7);
+    font-size: 14px;
+    font-weight: 500;
+    text-decoration: none;
+    border-bottom: 1px solid rgba(255,255,255,0.2);
+    padding-bottom: 2px;
+    transition: all 0.2s;
+  }
+  .btn-secondary:hover { color: var(--gold); border-color: var(--gold); }
+
+  .hero-stats {
+    display: flex;
+    gap: 48px;
+    margin-top: 56px;
+    padding-top: 40px;
+    border-top: 1px solid rgba(255,255,255,0.1);
+    animation: fadeUp 0.6s ease 0.4s both;
+  }
+  .stat-num {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 44px;
+    color: var(--gold);
+    line-height: 1;
+  }
+  .stat-label { font-size: 12px; color: var(--gray); letter-spacing: 1px; text-transform: uppercase; margin-top: 4px; }
+
+  @keyframes fadeUp { from{opacity:0;transform:translateY(24px)} to{opacity:1;transform:translateY(0)} }
+  @keyframes fadeIn { from{opacity:0} to{opacity:1} }
+
+  /* MARQUEE */
+  .marquee-section {
+    border-top: 1px solid var(--border);
+    border-bottom: 1px solid var(--border);
+    padding: 16px 0;
+    overflow: hidden;
+    background: var(--dark);
+  }
+  .marquee-track {
+    display: flex;
+    animation: marquee 22s linear infinite;
+    width: max-content;
+  }
+  .marquee-item {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 15px;
+    letter-spacing: 4px;
+    color: var(--gray);
+    padding: 0 40px;
+    white-space: nowrap;
+    display: flex;
+    align-items: center;
+    gap: 40px;
+  }
+  .marquee-item::after { content: '◆'; font-size: 8px; color: var(--gold); }
+  @keyframes marquee { from{transform:translateX(0)} to{transform:translateX(-50%)} }
+
+  /* SECTION */
+  section { padding: 100px 48px; }
+
+  .section-tag {
+    font-size: 11px;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: var(--gold);
+    font-weight: 600;
+    margin-bottom: 16px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+  .section-tag::before { content:''; width:32px; height:1px; background:var(--gold); }
+
+  .section-title {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: clamp(48px, 5vw, 72px);
+    line-height: 1;
+    letter-spacing: 1px;
+    margin-bottom: 16px;
+  }
+  .section-sub { color: var(--gray); font-size: 15px; max-width: 480px; margin-bottom: 64px; }
+
+  /* SERVICES */
+  .services-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1px;
+    background: var(--border);
+    border: 1px solid var(--border);
+  }
+
+  .service-card {
+    background: var(--card);
+    position: relative;
+    overflow: hidden;
+    transition: background 0.3s;
+    cursor: default;
+  }
+
+  .service-card-img {
+    width: 100%;
+    height: 200px;
+    object-fit: cover;
+    display: block;
+    filter: brightness(0.7);
+    transition: filter 0.4s, transform 0.4s;
+  }
+  .service-card:hover .service-card-img { filter: brightness(0.9); transform: scale(1.03); }
+
+  .service-card-body { padding: 32px; }
+
+  .service-card::after {
+    content: '';
+    position: absolute;
+    bottom: 0; left: 0; right: 0;
+    height: 2px;
+    background: var(--gold);
+    transform: scaleX(0);
+    transform-origin: left;
+    transition: transform 0.3s;
+  }
+  .service-card:hover::after { transform: scaleX(1); }
+
+  .service-number {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 56px;
+    color: rgba(201,168,76,0.1);
+    line-height: 1;
+    position: absolute;
+    top: 210px; right: 20px;
+  }
+
+  .service-name {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 26px;
+    letter-spacing: 1px;
+    margin-bottom: 8px;
+  }
+  .service-desc { color: var(--gray); font-size: 13px; line-height: 1.7; margin-bottom: 20px; }
+
+  .service-price { display: flex; align-items: baseline; gap: 4px; margin-bottom: 16px; }
+  .price-from { font-size: 12px; color: var(--gray); }
+  .price-value { font-family: 'Bebas Neue', sans-serif; font-size: 32px; color: var(--gold); line-height: 1; }
+  .price-unit { font-size: 13px; color: var(--gray); }
+
+  .service-includes { list-style: none; display: flex; flex-direction: column; gap: 5px; }
+  .service-includes li { font-size: 12px; color: var(--gray); display: flex; align-items: center; gap: 8px; }
+  .service-includes li::before { content: '—'; color: var(--gold); font-size: 10px; }
+
+  /* PROCESS */
+  .process-section {
+    background: var(--dark);
+    border-top: 1px solid var(--border);
+    border-bottom: 1px solid var(--border);
+    padding: 100px 48px;
+  }
+  .process-steps {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 1px;
+    background: var(--border);
+    margin-top: 64px;
+  }
+  .process-step { background: var(--card); padding: 40px 28px; position: relative; overflow: hidden; }
+  .step-num {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 80px;
+    color: rgba(201,168,76,0.07);
+    line-height: 1;
+    position: absolute;
+    top: 12px; right: 16px;
+  }
+  .step-icon { font-size: 28px; margin-bottom: 16px; }
+  .step-title { font-family: 'Bebas Neue', sans-serif; font-size: 22px; letter-spacing: 1px; margin-bottom: 10px; }
+  .step-desc { font-size: 13px; color: var(--gray); line-height: 1.7; }
+
+  /* BEFORE / AFTER — full photo */
+  .beforeafter-section { background: var(--black); }
+
+  .ba-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 12px;
+    margin-top: 64px;
+  }
+
+  .ba-card {
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    overflow: hidden;
+    background: var(--card);
+    transition: border-color 0.3s;
+  }
+  .ba-card:hover { border-color: var(--gold); }
+
+  .ba-images { display: grid; grid-template-columns: 1fr 1fr; }
+
+  .ba-side {
+    position: relative;
+    overflow: hidden;
+    height: 200px;
+  }
+  .ba-side img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+    transition: transform 0.4s;
+  }
+  .ba-card:hover .ba-side img { transform: scale(1.05); }
+
+  .ba-side.before img { filter: brightness(0.55) saturate(0.4); }
+  .ba-side.after img { filter: brightness(0.85); }
+
+  .ba-label {
+    position: absolute;
+    top: 10px; left: 10px;
+    font-size: 10px;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    font-weight: 700;
+    padding: 3px 10px;
+    border-radius: 2px;
+    z-index: 2;
+  }
+  .ba-side.before .ba-label { background: rgba(0,0,0,0.6); color: var(--gray); }
+  .ba-side.after .ba-label { background: rgba(201,168,76,0.2); color: var(--gold); border: 1px solid rgba(201,168,76,0.4); }
+
+  .ba-divider {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .ba-divider::before {
+    content: '';
+    position: absolute;
+    left: 0; top: 0; bottom: 0;
+    width: 2px;
+    background: var(--gold);
+    z-index: 3;
+  }
+
+  .ba-info { padding: 18px 20px; border-top: 1px solid var(--border); }
+  .ba-title { font-weight: 600; font-size: 15px; margin-bottom: 4px; }
+  .ba-detail { font-size: 12px; color: var(--gray); }
+
+  /* GALLERY / CAROUSEL */
+  .gallery-section {
+    background: var(--dark);
+    border-top: 1px solid var(--border);
+    padding: 100px 48px;
+  }
+
+  .preview-carousel {
+    position: relative;
+    overflow: hidden;
+    margin-top: 48px;
+    border-radius: 4px;
+  }
+
+  .preview-track {
+    display: flex;
+    gap: 12px;
+    transition: transform 0.45s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    will-change: transform;
+  }
+
+  .preview-slide {
+    flex: 0 0 calc(33.333% - 8px);
+    position: relative;
+    border-radius: 3px;
+    overflow: hidden;
+    aspect-ratio: 4/3;
+    background: var(--card);
+    border: 1px solid var(--border);
+  }
+
+  .preview-slide img {
+    width: 100%; height: 100%;
+    object-fit: cover;
+    display: block;
+    transition: transform 0.5s, filter 0.3s;
+    filter: brightness(0.8);
+  }
+
+  .preview-slide:hover img { transform: scale(1.05); filter: brightness(1); }
+
+  .preview-slide-label {
+    position: absolute;
+    bottom: 0; left: 0; right: 0;
+    padding: 28px 16px 14px;
+    background: linear-gradient(to top, rgba(10,10,10,0.85), transparent);
+    font-size: 12px;
+    font-weight: 600;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    color: var(--gold);
+    opacity: 0;
+    transition: opacity 0.3s;
+  }
+
+  .preview-slide:hover .preview-slide-label { opacity: 1; }
+
+  .carousel-btn {
+    position: absolute;
+    top: 50%; transform: translateY(-50%);
+    width: 48px; height: 48px;
+    background: rgba(10,10,10,0.8);
+    border: 1px solid var(--border);
+    color: var(--white);
+    border-radius: 50%;
+    font-size: 26px;
+    line-height: 1;
+    cursor: pointer;
+    transition: all 0.2s;
+    display: flex; align-items: center; justify-content: center;
+    z-index: 10;
+    backdrop-filter: blur(4px);
+  }
+  .carousel-btn:hover { background: rgba(201,168,76,0.2); border-color: var(--gold); color: var(--gold); }
+  .carousel-btn.prev { left: 12px; }
+  .carousel-btn.next { right: 12px; }
+  .carousel-btn:disabled { opacity: 0.2; cursor: not-allowed; }
+
+  .btn-all-works {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    border: 1px solid var(--border);
+    color: var(--white);
+    padding: 14px 32px;
+    border-radius: 2px;
+    font-weight: 600;
+    font-size: 14px;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    text-decoration: none;
+    transition: all 0.2s;
+    font-family: 'Manrope', sans-serif;
+  }
+  .btn-all-works:hover {
+    border-color: var(--gold);
+    color: var(--gold);
+    transform: translateY(-2px);
+  }
+
+  /* BOOKING */
+  .booking-section {
+    background: linear-gradient(135deg, var(--dark), var(--black));
+    border-top: 1px solid var(--border);
+  }
+  .booking-wrap {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 80px;
+    align-items: start;
+  }
+
+  .tg-block {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    padding: 40px;
+    position: relative;
+    overflow: hidden;
+  }
+  .tg-block::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 2px;
+    background: linear-gradient(to right, var(--gold), transparent);
+  }
+
+  .tg-icon {
+    width: 52px; height: 52px;
+    background: rgba(201,168,76,0.1);
+    border: 1px solid rgba(201,168,76,0.3);
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 26px;
+    margin-bottom: 20px;
+  }
+  .tg-title { font-family: 'Bebas Neue', sans-serif; font-size: 34px; letter-spacing: 1px; margin-bottom: 10px; }
+  .tg-desc { color: var(--gray); font-size: 14px; line-height: 1.7; margin-bottom: 28px; }
+
+  .tg-steps { list-style: none; display: flex; flex-direction: column; gap: 12px; margin-bottom: 32px; }
+  .tg-step { display: flex; align-items: flex-start; gap: 14px; font-size: 14px; }
+  .tg-step-num {
+    min-width: 24px; height: 24px;
+    background: rgba(201,168,76,0.15);
+    border: 1px solid rgba(201,168,76,0.3);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 11px;
+    font-weight: 700;
+    color: var(--gold);
+    margin-top: 1px;
+  }
+  .tg-step-text { color: var(--gray); line-height: 1.5; }
+  .tg-step-text strong { color: var(--white); font-weight: 600; }
+
+  .btn-tg {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+    width: 100%;
+    background: var(--gold);
+    color: var(--black);
+    padding: 18px 32px;
+    border-radius: 3px;
+    font-weight: 700;
+    font-size: 15px;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    text-decoration: none;
+    transition: all 0.2s;
+    border: none;
+    cursor: pointer;
+  }
+  .btn-tg:hover {
+    background: var(--gold-light);
+    transform: translateY(-2px);
+    box-shadow: 0 12px 40px rgba(201,168,76,0.25);
+  }
+  .btn-tg svg { width: 20px; height: 20px; }
+
+  .booking-info {}
+  .info-card { padding: 28px 0; border-bottom: 1px solid var(--border); }
+  .info-card:last-child { border-bottom: none; }
+  .info-card-title { font-weight: 600; font-size: 15px; margin-bottom: 10px; display: flex; align-items: center; gap: 10px; }
+  .info-card-title span { font-size: 18px; }
+  .info-list { list-style: none; display: flex; flex-direction: column; gap: 6px; }
+  .info-list li { font-size: 14px; color: var(--gray); display: flex; align-items: center; gap: 8px; }
+  .info-list li::before { content:''; width:4px; height:4px; border-radius:50%; background:var(--gold); flex-shrink:0; }
+
+  /* REVIEWS */
+  .reviews-section { background: var(--dark); border-top: 1px solid var(--border); }
+  .reviews-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; margin-top: 64px; }
+
+  .review-card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    padding: 28px;
+    position: relative;
+    overflow: hidden;
+    transition: border-color 0.3s;
+  }
+  .review-card:hover { border-color: rgba(201,168,76,0.3); }
+
+  .review-quote {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 64px;
+    color: rgba(201,168,76,0.15);
+    line-height: 0.8;
+    position: absolute;
+    top: 16px; right: 20px;
+  }
+  .review-stars { display: flex; gap: 3px; margin-bottom: 14px; color: var(--gold); font-size: 14px; }
+  .review-text { font-size: 14px; color: var(--gray); line-height: 1.8; margin-bottom: 20px; }
+  .review-author { display: flex; align-items: center; gap: 12px; border-top: 1px solid var(--border); padding-top: 18px; }
+  .author-avatar { width: 40px; height: 40px; border-radius: 50%; overflow: hidden; border: 1px solid rgba(201,168,76,0.3); }
+  .author-avatar img { width: 100%; height: 100%; object-fit: cover; }
+  .author-name { font-weight: 600; font-size: 14px; }
+  .author-car { font-size: 12px; color: var(--gray); }
+
+  /* FOOTER */
+  footer {
+    background: var(--dark);
+    border-top: 1px solid var(--border);
+    padding: 60px 48px 32px;
+  }
+  .footer-top { display: grid; grid-template-columns: 1.5fr 1fr 1fr; gap: 60px; margin-bottom: 48px; }
+  .footer-brand .logo { display: block; margin-bottom: 16px; }
+  .footer-desc { font-size: 13px; color: var(--gray); line-height: 1.7; max-width: 280px; margin-bottom: 20px; }
+  .footer-contacts { display: flex; flex-direction: column; gap: 8px; }
+  .footer-contact-item { font-size: 13px; color: var(--gray); display: flex; align-items: center; gap: 8px; text-decoration: none; transition: color 0.2s; }
+  .footer-contact-item:hover { color: var(--gold); }
+  .footer-col-title { font-weight: 700; font-size: 12px; letter-spacing: 2px; text-transform: uppercase; color: var(--white); margin-bottom: 18px; }
+  .footer-links { list-style: none; display: flex; flex-direction: column; gap: 10px; }
+  .footer-links a { font-size: 14px; color: var(--gray); text-decoration: none; transition: color 0.2s; }
+  .footer-links a:hover { color: var(--gold); }
+  .footer-bottom { border-top: 1px solid var(--border); padding-top: 24px; display: flex; align-items: center; justify-content: space-between; }
+  .footer-copy { font-size: 12px; color: rgba(136,136,136,0.5); }
+  .footer-tg-btn {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    background: rgba(201,168,76,0.08);
+    border: 1px solid rgba(201,168,76,0.2);
+    color: var(--gold);
+    padding: 10px 20px;
+    border-radius: 2px;
+    font-size: 13px;
+    font-weight: 600;
+    text-decoration: none;
+    transition: all 0.2s;
+  }
+  .footer-tg-btn:hover { background: rgba(201,168,76,0.15); border-color: var(--gold); }
+
+  /* STICKY */
+  .sticky-cta { position: fixed; bottom: 32px; right: 32px; z-index: 99; }
+  .sticky-btn {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    background: var(--gold);
+    color: var(--black);
+    padding: 14px 22px;
+    border-radius: 100px;
+    font-weight: 700;
+    font-size: 13px;
+    letter-spacing: 0.5px;
+    text-decoration: none;
+    box-shadow: 0 8px 32px rgba(201,168,76,0.4);
+    transition: all 0.2s;
+  }
+  .sticky-btn:hover { transform: translateY(-3px); box-shadow: 0 16px 48px rgba(201,168,76,0.5); }
+  .sticky-btn svg { width: 18px; height: 18px; }
+
+  /* MOBILE */
+  @media (max-width: 900px) {
+    nav { padding: 16px 24px; }
+    .nav-links { display: none; }
+    section, .process-section, .gallery-section { padding: 64px 24px; }
+    .services-grid { grid-template-columns: 1fr; }
+    .process-steps { grid-template-columns: 1fr 1fr; }
+    .ba-grid { grid-template-columns: 1fr; }
+    .gallery-grid { grid-template-columns: 1fr 1fr; }
+    .gallery-item:first-child { grid-column: span 2; }
+    .booking-wrap { grid-template-columns: 1fr; gap: 40px; }
+    .reviews-grid { grid-template-columns: 1fr; }
+    .footer-top { grid-template-columns: 1fr; gap: 36px; }
+    .hero-content { padding: 80px 24px 64px; }
+    .hero-stats { gap: 28px; flex-wrap: wrap; }
+    footer { padding: 48px 24px 28px; }
+  }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <a href="#" class="logo">BLACK<span>COAT</span></a>
+  <ul class="nav-links">
+    <li><a href="#services">Услуги</a></li>
+    <li><a href="#gallery">Работы</a></li>
+    <li><a href="#reviews">Отзывы</a></li>
+    <li><a href="#" class="nav-cta" onclick="openModal();return false;">Записаться</a></li>
+  </ul>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-bg" id="heroBg"></div>
+  <div class="hero-overlay"></div>
+  <div class="hero-content">
+    <div class="hero-badge">Профессиональный детейлинг</div>
+    <h1>ЗАЩИТА <em>ВАШЕГО</em> АВТО</h1>
+    <p class="hero-desc">Полировка, керамика, химчистка — возвращаем автомобилям первозданный вид. Работаем только с профессиональными материалами.</p>
+    <div class="hero-actions">
+      <a href="#" class="btn-primary" onclick="openModal();return false;">
+        Записаться в Telegram
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+      </a>
+      <a href="#services" class="btn-secondary">Смотреть услуги</a>
+    </div>
+    <div class="hero-stats">
+      <div>
+        <div class="stat-num">847</div>
+        <div class="stat-label">Авто обслужено</div>
+      </div>
+      <div>
+        <div class="stat-num">4.9★</div>
+        <div class="stat-label">Средняя оценка</div>
+      </div>
+      <div>
+        <div class="stat-num">5 лет</div>
+        <div class="stat-label">На рынке</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- MARQUEE -->
+<div class="marquee-section">
+  <div class="marquee-track">
+    <div class="marquee-item">Полировка кузова</div>
+    <div class="marquee-item">Нанокерамика</div>
+    <div class="marquee-item">Химчистка салона</div>
+    <div class="marquee-item">Детейлинг двигателя</div>
+    <div class="marquee-item">Защитная плёнка</div>
+    <div class="marquee-item">Озонирование</div>
+    <div class="marquee-item">Антидождь</div>
+    <div class="marquee-item">Полировка кузова</div>
+    <div class="marquee-item">Нанокерамика</div>
+    <div class="marquee-item">Химчистка салона</div>
+    <div class="marquee-item">Детейлинг двигателя</div>
+    <div class="marquee-item">Защитная плёнка</div>
+    <div class="marquee-item">Озонирование</div>
+    <div class="marquee-item">Антидождь</div>
+  </div>
+</div>
+
+<!-- SERVICES -->
+<section id="services" style="padding: 100px 48px;">
+  <div class="section-tag">Что мы делаем</div>
+  <h2 class="section-title">НАШИ УСЛУГИ</h2>
+  <p class="section-sub">Полный спектр услуг по уходу за автомобилем — от быстрой полировки до комплексного детейлинга.</p>
+  <div class="services-grid">
+
+    <div class="service-card">
+      <img class="service-card-img" src="https://images.unsplash.com/photo-1615906655593-ad0386982a0f?w=600&q=75" alt="Полировка кузова" loading="lazy">
+      <div class="service-card-body">
+        <div class="service-number">01</div>
+        <div class="service-name">Полировка кузова</div>
+        <p class="service-desc">Устраняем царапины, потёртости и окислы. Кузов снова блестит как новый.</p>
+        <div class="service-price">
+          <span class="price-from">от</span>
+          <span class="price-value">4 500</span>
+          <span class="price-unit">₽</span>
+        </div>
+        <ul class="service-includes">
+          <li>Абразивная + финишная полировка</li>
+          <li>Удаление мелких царапин</li>
+          <li>Нанесение воска / защиты</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="service-card">
+      <img class="service-card-img" src="https://images.unsplash.com/photo-1600880292203-757bb62b4baf?w=600&q=75" alt="Нанокерамика" loading="lazy">
+      <div class="service-card-body">
+        <div class="service-number">02</div>
+        <div class="service-name">Нанокерамика</div>
+        <p class="service-desc">Защитное покрытие на 3–5 лет. Грязь, вода и мелкие царапины больше не страшны.</p>
+        <div class="service-price">
+          <span class="price-from">от</span>
+          <span class="price-value">15 000</span>
+          <span class="price-unit">₽</span>
+        </div>
+        <ul class="service-includes">
+          <li>Подготовка поверхности</li>
+          <li>Нанесение 2 слоёв керамики</li>
+          <li>Гарантия 3–5 лет</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="service-card">
+      <img class="service-card-img" src="https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=600&q=75" alt="Химчистка салона" loading="lazy">
+      <div class="service-card-body">
+        <div class="service-number">03</div>
+        <div class="service-name">Химчистка салона</div>
+        <p class="service-desc">Глубокая чистка всех поверхностей, кресел, ковров и потолка. Без запахов и пятен.</p>
+        <div class="service-price">
+          <span class="price-from">от</span>
+          <span class="price-value">3 500</span>
+          <span class="price-unit">₽</span>
+        </div>
+        <ul class="service-includes">
+          <li>Чистка сидений и ковров</li>
+          <li>Удаление пятен и запахов</li>
+          <li>Обработка пластика и кожи</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="service-card">
+      <img class="service-card-img" src="https://images.unsplash.com/photo-1503376780353-7e6692767b70?w=600&q=75" alt="Детейлинг под ключ" loading="lazy">
+      <div class="service-card-body">
+        <div class="service-number">04</div>
+        <div class="service-name">Детейлинг под ключ</div>
+        <p class="service-desc">Полный комплекс снаружи и внутри. Авто выходит из студии как с автосалона.</p>
+        <div class="service-price">
+          <span class="price-from">от</span>
+          <span class="price-value">12 000</span>
+          <span class="price-unit">₽</span>
+        </div>
+        <ul class="service-includes">
+          <li>Полировка + керамика</li>
+          <li>Химчистка салона</li>
+          <li>Полный фото-отчёт</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="service-card">
+      <img class="service-card-img" src="https://images.unsplash.com/photo-1449965408869-eaa3f722e40d?w=600&q=75" alt="Озонирование" loading="lazy">
+      <div class="service-card-body">
+        <div class="service-number">05</div>
+        <div class="service-name">Озонирование</div>
+        <p class="service-desc">Уничтожаем запахи табака, животных и плесени на молекулярном уровне.</p>
+        <div class="service-price">
+          <span class="price-from">от</span>
+          <span class="price-value">1 500</span>
+          <span class="price-unit">₽</span>
+        </div>
+        <ul class="service-includes">
+          <li>Генератор озона 10г/час</li>
+          <li>Устранение любых запахов</li>
+          <li>Дезинфекция воздуха</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="service-card">
+      <img class="service-card-img" src="https://images.unsplash.com/photo-1486262715619-67b85e0b08d3?w=600&q=75" alt="Детейлинг двигателя" loading="lazy">
+      <div class="service-card-body">
+        <div class="service-number">06</div>
+        <div class="service-name">Детейлинг двигателя</div>
+        <p class="service-desc">Очистка моторного отсека, удаление масляных пятен, нанесение защитных составов.</p>
+        <div class="service-price">
+          <span class="price-from">от</span>
+          <span class="price-value">2 500</span>
+          <span class="price-unit">₽</span>
+        </div>
+        <ul class="service-includes">
+          <li>Обезжиривание и промывка</li>
+          <li>Чернение шлангов и пластика</li>
+          <li>Защита от коррозии</li>
+        </ul>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- PROCESS -->
+<section class="process-section" id="process">
+  <div class="section-tag">Как мы работаем</div>
+  <h2 class="section-title">4 ШАГА ДО ИДЕАЛА</h2>
+  <p class="section-sub">Простая запись, никакой суеты — вы просто приезжаете и получаете результат.</p>
+  <div class="process-steps">
+    <div class="process-step">
+      <div class="step-num">1</div>
+      <div class="step-icon">💬</div>
+      <div class="step-title">Пишете в Telegram</div>
+      <p class="step-desc">Описываете авто и желаемую услугу. Отвечаем в течение 15 минут, уточняем детали.</p>
+    </div>
+    <div class="process-step">
+      <div class="step-num">2</div>
+      <div class="step-icon">📅</div>
+      <div class="step-title">Выбираете время</div>
+      <p class="step-desc">Предлагаем удобные слоты. Работаем 7 дней в неделю с 9:00 до 20:00.</p>
+    </div>
+    <div class="process-step">
+      <div class="step-num">3</div>
+      <div class="step-icon">🔬</div>
+      <div class="step-title">Осмотр авто</div>
+      <p class="step-desc">Мастер осматривает авто, фотографирует, уточняет объём работ и итоговую стоимость.</p>
+    </div>
+    <div class="process-step">
+      <div class="step-num">4</div>
+      <div class="step-icon">🏆</div>
+      <div class="step-title">Забираете результат</div>
+      <p class="step-desc">Получаете авто и фото-отчёт «до / после». Оплата по факту работы.</p>
+    </div>
+  </div>
+</section>
+
+<!-- BEFORE / AFTER -->
+<section class="beforeafter-section" id="works">
+  <div class="section-tag">Наши работы</div>
+  <h2 class="section-title">ДО И ПОСЛЕ</h2>
+  <p class="section-sub">Фотографии реальных работ — без фотошопа и фильтров.</p>
+  <div class="ba-grid">
+
+    <div class="ba-card">
+      <div class="ba-images">
+        <div class="ba-side before">
+          <span class="ba-label">До</span>
+          <img src="https://images.unsplash.com/photo-1615906655593-ad0386982a0f?w=400&q=70" alt="до полировки" loading="lazy">
+        </div>
+        <div class="ba-side after ba-divider">
+          <span class="ba-label">После</span>
+          <img src="https://images.unsplash.com/photo-1619642751034-765dfdf7c58e?w=400&q=70" alt="после полировки" loading="lazy">
+        </div>
+      </div>
+      <div class="ba-info">
+        <div class="ba-title">Полировка кузова</div>
+        <div class="ba-detail">BMW 5 Series · Убрали 80% царапин</div>
+      </div>
+    </div>
+
+    <div class="ba-card">
+      <div class="ba-images">
+        <div class="ba-side before">
+          <span class="ba-label">До</span>
+          <img src="https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=400&q=70" alt="до химчистки" loading="lazy">
+        </div>
+        <div class="ba-side after ba-divider">
+          <span class="ba-label">После</span>
+          <img src="https://images.unsplash.com/photo-1547038577-da80abbc4f19?w=400&q=70" alt="после химчистки" loading="lazy">
+        </div>
+      </div>
+      <div class="ba-info">
+        <div class="ba-title">Химчистка салона</div>
+        <div class="ba-detail">Toyota Camry · Полная чистка + озон</div>
+      </div>
+    </div>
+
+    <div class="ba-card">
+      <div class="ba-images">
+        <div class="ba-side before">
+          <span class="ba-label">До</span>
+          <img src="https://images.unsplash.com/photo-1486262715619-67b85e0b08d3?w=400&q=70" alt="до керамики" loading="lazy">
+        </div>
+        <div class="ba-side after ba-divider">
+          <span class="ba-label">После</span>
+          <img src="https://images.unsplash.com/photo-1600880292203-757bb62b4baf?w=400&q=70" alt="после керамики" loading="lazy">
+        </div>
+      </div>
+      <div class="ba-info">
+        <div class="ba-title">Керамическое покрытие</div>
+        <div class="ba-detail">Mercedes C-Class · Защита на 5 лет</div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- GALLERY PREVIEW -->
+<section class="gallery-section" id="gallery">
+  <div class="section-tag">Наши работы</div>
+  <h2 class="section-title">ПОРТФОЛИО</h2>
+  <p class="section-sub">Несколько последних работ — смотрите все в галерее.</p>
+
+  <!-- Карусель-превью -->
+  <div class="preview-carousel" id="previewCarousel">
+    <div class="preview-track" id="previewTrack">
+      <div class="preview-slide">
+        <img src="https://images.unsplash.com/photo-1607860108855-64acf2078ed9?w=600&q=80" alt="студия" loading="lazy">
+        <div class="preview-slide-label">Детейлинг студия</div>
+      </div>
+      <div class="preview-slide">
+        <img src="https://images.unsplash.com/photo-1615906655593-ad0386982a0f?w=600&q=80" alt="полировка" loading="lazy">
+        <div class="preview-slide-label">Полировка кузова</div>
+      </div>
+      <div class="preview-slide">
+        <img src="https://images.unsplash.com/photo-1619642751034-765dfdf7c58e?w=600&q=80" alt="после полировки" loading="lazy">
+        <div class="preview-slide-label">Результат полировки</div>
+      </div>
+      <div class="preview-slide">
+        <img src="https://images.unsplash.com/photo-1600880292203-757bb62b4baf?w=600&q=80" alt="керамика" loading="lazy">
+        <div class="preview-slide-label">Нанокерамика</div>
+      </div>
+      <div class="preview-slide">
+        <img src="https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=600&q=80" alt="химчистка" loading="lazy">
+        <div class="preview-slide-label">Химчистка салона</div>
+      </div>
+      <div class="preview-slide">
+        <img src="https://images.unsplash.com/photo-1493238792000-8113da705763?w=600&q=80" alt="детейлинг" loading="lazy">
+        <div class="preview-slide-label">Детейлинг</div>
+      </div>
+    </div>
+    <button class="carousel-btn prev" id="carouselPrev">&#8249;</button>
+    <button class="carousel-btn next" id="carouselNext">&#8250;</button>
+  </div>
+
+  <!-- Кнопка на портфолио -->
+  <div style="display:flex; justify-content:center; margin-top:40px;">
+    <a href="portfolio.html" class="btn-all-works">
+      Смотреть все работы
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+    </a>
+  </div>
+</section>
+
+<!-- BOOKING -->
+<section class="booking-section" id="booking">
+  <div class="section-tag">Запись</div>
+  <h2 class="section-title">ЗАПИСАТЬСЯ</h2>
+  <p class="section-sub">Запишитесь прямо сейчас — ответим быстро и подберём удобное время.</p>
+  <div class="booking-wrap">
+    <div class="tg-block">
+      <div class="tg-icon">✈️</div>
+      <div class="tg-title">ЗАПИСЬ ЧЕРЕЗ TELEGRAM</div>
+      <p class="tg-desc">Самый удобный способ — пишите в любое время, ответим в течение 15 минут в рабочие часы.</p>
+      <ul class="tg-steps">
+        <li class="tg-step">
+          <div class="tg-step-num">1</div>
+          <div class="tg-step-text">Заполните форму — <strong>имя, контакт, авто и услугу</strong></div>
+        </li>
+        <li class="tg-step">
+          <div class="tg-step-num">2</div>
+          <div class="tg-step-text">Заявка мгновенно <strong>летит нам в Telegram</strong></div>
+        </li>
+        <li class="tg-step">
+          <div class="tg-step-num">3</div>
+          <div class="tg-step-text">Мы предложим <strong>удобное время</strong> и подтвердим запись</div>
+        </li>
+      </ul>
+      <button onclick="openModal()" class="btn-tg">
+        <svg viewBox="0 0 24 24" fill="currentColor">
+          <path d="M12 0C5.373 0 0 5.373 0 12s5.373 12 12 12 12-5.373 12-12S18.627 0 12 0zm5.894 8.221l-1.97 9.28c-.145.658-.537.818-1.084.508l-3-2.21-1.447 1.394c-.16.16-.295.295-.605.295l.213-3.053 5.56-5.023c.242-.213-.054-.333-.373-.12l-6.871 4.326-2.962-.924c-.643-.204-.657-.643.136-.953l11.57-4.461c.537-.194 1.006.131.833.941z"/>
+        </svg>
+        Записаться — форма за 1 минуту
+      </button>
+    </div>
+    <div class="booking-info">
+      <div class="info-card">
+        <div class="info-card-title"><span>🕐</span> Режим работы</div>
+        <ul class="info-list">
+          <li>Пн–Пт: 9:00 — 20:00</li>
+          <li>Сб–Вс: 10:00 — 18:00</li>
+          <li>Праздники — уточняйте</li>
+        </ul>
+      </div>
+      <div class="info-card">
+        <div class="info-card-title"><span>📍</span> Адрес студии</div>
+        <ul class="info-list">
+          <li>ул. Примерная, 42, бокс 3</li>
+          <li>Парковка перед студией — бесплатно</li>
+          <li>Зона ожидания и Wi-Fi</li>
+        </ul>
+      </div>
+      <div class="info-card">
+        <div class="info-card-title"><span>💳</span> Оплата</div>
+        <ul class="info-list">
+          <li>Наличные и карта</li>
+          <li>СБП без комиссии</li>
+          <li>Рассрочка на услуги от 10 000 ₽</li>
+        </ul>
+      </div>
+      <div class="info-card">
+        <div class="info-card-title"><span>🚗</span> Принимаем</div>
+        <ul class="info-list">
+          <li>Легковые и кроссоверы</li>
+          <li>Минивэны и SUV</li>
+          <li>Премиум-класс — с удовольствием</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- REVIEWS -->
+<section class="reviews-section" id="reviews">
+  <div class="section-tag">Отзывы</div>
+  <h2 class="section-title">ЧТО ГОВОРЯТ КЛИЕНТЫ</h2>
+  <p class="section-sub">Реальные отзывы от реальных людей.</p>
+  <div class="reviews-grid">
+    <div class="review-card">
+      <div class="review-quote">"</div>
+      <div class="review-stars">★★★★★</div>
+      <p class="review-text">Отдавал BMW на полировку после зимы — машина была в царапинах и разводах. Результат превзошёл ожидания, авто выглядит лучше, чем когда купил. Мастер всё объяснил и прислал фото до/после.</p>
+      <div class="review-author">
+        <div class="author-avatar">
+          <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=80&q=70" alt="Алексей" loading="lazy">
+        </div>
+        <div>
+          <div class="author-name">Алексей К.</div>
+          <div class="author-car">BMW 530d · Полировка кузова</div>
+        </div>
+      </div>
+    </div>
+    <div class="review-card">
+      <div class="review-quote">"</div>
+      <div class="review-stars">★★★★★</div>
+      <p class="review-text">Делала химчистку после поездок с собакой. Шерсть была везде, плюс характерный запах. После обработки — как новый салон. Записалась в Телеграм, всё быстро и удобно.</p>
+      <div class="review-author">
+        <div class="author-avatar">
+          <img src="https://images.unsplash.com/photo-1494790108755-2616b612b6d5?w=80&q=70" alt="Марина" loading="lazy">
+        </div>
+        <div>
+          <div class="author-name">Марина С.</div>
+          <div class="author-car">Toyota RAV4 · Химчистка + озон</div>
+        </div>
+      </div>
+    </div>
+    <div class="review-card">
+      <div class="review-quote">"</div>
+      <div class="review-stars">★★★★★</div>
+      <p class="review-text">Нанёс керамику на новый Мерседес — хотел защитить с первых дней. Сделали аккуратно, дали гарантийный талон. Прошло полгода — машина отталкивает воду и грязь идеально.</p>
+      <div class="review-author">
+        <div class="author-avatar">
+          <img src="https://images.unsplash.com/photo-1560250097-0b93528c311a?w=80&q=70" alt="Дмитрий" loading="lazy">
+        </div>
+        <div>
+          <div class="author-name">Дмитрий П.</div>
+          <div class="author-car">Mercedes GLE · Нанокерамика</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-top">
+    <div class="footer-brand">
+      <a href="#" class="logo">BLACK<span>COAT</span></a>
+      <p class="footer-desc">Профессиональный детейлинг, полировка и химчистка. Работаем с 2019 года, 847 довольных клиентов.</p>
+      <div class="footer-contacts">
+        <a href="tel:+79001234567" class="footer-contact-item">📞 +7 (900) 123-45-67</a>
+        <a href="https://t.me/your_username" class="footer-contact-item" target="_blank">✈️ @blackcoat_detail</a>
+        <a href="#" class="footer-contact-item">📍 ул. Примерная, 42</a>
+      </div>
+    </div>
+    <div>
+      <div class="footer-col-title">Услуги</div>
+      <ul class="footer-links">
+        <li><a href="#">Полировка кузова</a></li>
+        <li><a href="#">Нанокерамика</a></li>
+        <li><a href="#">Химчистка салона</a></li>
+        <li><a href="#">Детейлинг под ключ</a></li>
+        <li><a href="#">Озонирование</a></li>
+        <li><a href="#">Детейлинг двигателя</a></li>
+      </ul>
+    </div>
+    <div>
+      <div class="footer-col-title">Информация</div>
+      <ul class="footer-links">
+        <li><a href="#">О студии</a></li>
+        <li><a href="#">Наши работы</a></li>
+        <li><a href="#">Отзывы</a></li>
+        <li><a href="#">Акции</a></li>
+        <li><a href="#">Контакты</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <div class="footer-copy">© 2024 BLACKCOAT. Все права защищены.</div>
+    <button onclick="openModal()" class="footer-tg-btn" style="cursor:pointer;font-family:'Manrope',sans-serif;">✈️ Записаться в Telegram</button>
+  </div>
+</footer>
+
+<!-- STICKY CTA -->
+<div class="sticky-cta">
+  <button class="sticky-btn" onclick="openModal()">
+    <svg viewBox="0 0 24 24" fill="currentColor" style="width:18px;height:18px">
+      <path d="M12 0C5.373 0 0 5.373 0 12s5.373 12 12 12 12-5.373 12-12S18.627 0 12 0zm5.894 8.221l-1.97 9.28c-.145.658-.537.818-1.084.508l-3-2.21-1.447 1.394c-.16.16-.295.295-.605.295l.213-3.053 5.56-5.023c.242-.213-.054-.333-.373-.12l-6.871 4.326-2.962-.924c-.643-.204-.657-.643.136-.953l11.57-4.461c.537-.194 1.006.131.833.941z"/>
+    </svg>
+    Записаться
+  </button>
+</div>
+
+<!-- MODAL STYLES -->
+<style>
+  .modal-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,0.85);
+    backdrop-filter: blur(6px);
+    z-index: 999;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.25s;
+    padding: 16px;
+  }
+  .modal-overlay.open {
+    opacity: 1;
+    pointer-events: all;
+  }
+  .modal {
+    background: #161616;
+    border: 1px solid #2a2a2a;
+    border-radius: 6px;
+    width: 100%;
+    max-width: 480px;
+    max-height: 90vh;
+    overflow-y: auto;
+    position: relative;
+    transform: translateY(24px) scale(0.97);
+    transition: transform 0.25s ease;
+  }
+  .modal-overlay.open .modal {
+    transform: translateY(0) scale(1);
+  }
+  .modal::-webkit-scrollbar { width: 4px; }
+  .modal::-webkit-scrollbar-track { background: #111; }
+  .modal::-webkit-scrollbar-thumb { background: #333; border-radius: 2px; }
+
+  .modal-top-bar {
+    height: 3px;
+    background: linear-gradient(to right, var(--gold), transparent);
+    border-radius: 6px 6px 0 0;
+  }
+  .modal-body { padding: 32px; }
+
+  .modal-close {
+    position: absolute;
+    top: 16px; right: 16px;
+    background: #222;
+    border: 1px solid #333;
+    color: #888;
+    width: 32px; height: 32px;
+    border-radius: 50%;
+    font-size: 18px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    line-height: 1;
+    transition: all 0.2s;
+    z-index: 2;
+  }
+  .modal-close:hover { background: #333; color: #fff; }
+
+  .modal-icon { font-size: 28px; margin-bottom: 8px; }
+  .modal-title {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 32px;
+    letter-spacing: 1px;
+    margin-bottom: 6px;
+  }
+  .modal-sub { font-size: 13px; color: var(--gray); margin-bottom: 28px; line-height: 1.6; }
+
+  .form-group { margin-bottom: 20px; }
+  .form-label {
+    display: block;
+    font-size: 12px;
+    font-weight: 600;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    color: #aaa;
+    margin-bottom: 8px;
+  }
+  .form-input {
+    width: 100%;
+    background: #0f0f0f;
+    border: 1px solid #2a2a2a;
+    border-radius: 3px;
+    padding: 12px 16px;
+    color: var(--white);
+    font-family: 'Manrope', sans-serif;
+    font-size: 14px;
+    outline: none;
+    transition: border-color 0.2s;
+  }
+  .form-input:focus { border-color: var(--gold); }
+  .form-input::placeholder { color: #444; }
+
+  .chips {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+  .chip {
+    padding: 7px 14px;
+    border: 1px solid #2a2a2a;
+    border-radius: 100px;
+    font-size: 13px;
+    color: #888;
+    cursor: pointer;
+    transition: all 0.2s;
+    user-select: none;
+  }
+  .chip:hover { border-color: #444; color: #ccc; }
+  .chip.active {
+    border-color: var(--gold);
+    color: var(--gold);
+    background: rgba(201,168,76,0.08);
+  }
+
+  .form-textarea {
+    width: 100%;
+    background: #0f0f0f;
+    border: 1px solid #2a2a2a;
+    border-radius: 3px;
+    padding: 12px 16px;
+    color: var(--white);
+    font-family: 'Manrope', sans-serif;
+    font-size: 14px;
+    outline: none;
+    resize: none;
+    height: 80px;
+    transition: border-color 0.2s;
+  }
+  .form-textarea:focus { border-color: var(--gold); }
+  .form-textarea::placeholder { color: #444; }
+
+  .btn-submit {
+    width: 100%;
+    background: var(--gold);
+    color: var(--black);
+    border: none;
+    padding: 16px;
+    border-radius: 3px;
+    font-family: 'Manrope', sans-serif;
+    font-weight: 700;
+    font-size: 14px;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    cursor: pointer;
+    transition: all 0.2s;
+    margin-top: 8px;
+  }
+  .btn-submit:hover {
+    background: var(--gold-light);
+    transform: translateY(-1px);
+    box-shadow: 0 6px 24px rgba(201,168,76,0.3);
+  }
+  .btn-submit:disabled { opacity: 0.5; cursor: not-allowed; transform: none; }
+
+  .form-note { font-size: 12px; color: #555; text-align: center; margin-top: 12px; }
+
+  /* SUCCESS */
+  .success-view {
+    display: none;
+    text-align: center;
+    padding: 16px 0;
+  }
+  .success-icon { font-size: 56px; margin-bottom: 16px; }
+  .success-title {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 32px;
+    color: var(--gold);
+    margin-bottom: 10px;
+    letter-spacing: 1px;
+  }
+  .success-text { font-size: 14px; color: var(--gray); line-height: 1.7; }
+
+  .sticky-btn { border: none; cursor: pointer; }
+</style>
+
+<!-- MODAL HTML -->
+<div class="modal-overlay" id="modalOverlay">
+  <div class="modal" id="modal">
+    <div class="modal-top-bar"></div>
+    <div class="modal-body">
+      <button class="modal-close" onclick="closeModal()">×</button>
+
+      <!-- FORM -->
+      <div id="formView">
+        <div class="modal-icon">🚗</div>
+        <div class="modal-title">Запись в студию</div>
+        <div class="modal-sub">Оставьте заявку — свяжемся в течение 15 минут и подберём удобное время</div>
+
+        <div class="form-group">
+          <label class="form-label">Ваше имя</label>
+          <input class="form-input" type="text" id="fieldName" placeholder="Алексей">
+        </div>
+
+        <div class="form-group">
+          <label class="form-label">Telegram или телефон</label>
+          <input class="form-input" type="text" id="fieldContact" placeholder="@username или +7 900 000-00-00">
+        </div>
+
+        <div class="form-group">
+          <label class="form-label">Марка и год авто</label>
+          <input class="form-input" type="text" id="fieldCar" placeholder="BMW 5 Series, 2021">
+        </div>
+
+        <div class="form-group">
+          <label class="form-label">Услуга</label>
+          <div class="chips">
+            <div class="chip" onclick="toggleChip(this,'service')">Полировка</div>
+            <div class="chip" onclick="toggleChip(this,'service')">Нанокерамика</div>
+            <div class="chip" onclick="toggleChip(this,'service')">Химчистка</div>
+            <div class="chip" onclick="toggleChip(this,'service')">Детейлинг под ключ</div>
+            <div class="chip" onclick="toggleChip(this,'service')">Озонирование</div>
+            <div class="chip" onclick="toggleChip(this,'service')">Двигатель</div>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label">Удобное время</label>
+          <div class="chips">
+            <div class="chip" onclick="toggleChip(this,'time')">Утро 9–12</div>
+            <div class="chip" onclick="toggleChip(this,'time')">День 12–17</div>
+            <div class="chip" onclick="toggleChip(this,'time')">Вечер 17–20</div>
+            <div class="chip" onclick="toggleChip(this,'time')">Любое</div>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label">Комментарий (необязательно)</label>
+          <textarea class="form-textarea" id="fieldComment" placeholder="Опишите состояние авто или пожелания..."></textarea>
+        </div>
+
+        <button class="btn-submit" id="submitBtn" onclick="submitForm()">Отправить заявку</button>
+        <div class="form-note">Нажимая кнопку, вы соглашаетесь на обработку данных</div>
+      </div>
+
+      <!-- SUCCESS -->
+      <div class="success-view" id="successView">
+        <div class="success-icon">✅</div>
+        <div class="success-title">Заявка отправлена!</div>
+        <div class="success-text">Мы получили вашу заявку и свяжемся с вами<br>в ближайшее время для подтверждения записи.</div>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+
+
+<script>
+  // Карусель превью
+  const track = document.getElementById('previewTrack');
+  const slides = track ? Array.from(track.querySelectorAll('.preview-slide')) : [];
+  const btnPrev = document.getElementById('carouselPrev');
+  const btnNext = document.getElementById('carouselNext');
+  let current = 0;
+  const visible = window.innerWidth < 768 ? 1 : 3;
+
+  function updateCarousel() {
+    if (!track || slides.length === 0) return;
+    const slideW = slides[0].offsetWidth + 12;
+    track.style.transform = `translateX(-${current * slideW}px)`;
+    if (btnPrev) btnPrev.disabled = current === 0;
+    if (btnNext) btnNext.disabled = current >= slides.length - visible;
+  }
+
+  if (btnPrev) btnPrev.addEventListener('click', () => { if (current > 0) { current--; updateCarousel(); } });
+  if (btnNext) btnNext.addEventListener('click', () => { if (current < slides.length - visible) { current++; updateCarousel(); } });
+  window.addEventListener('resize', updateCarousel);
+  setTimeout(updateCarousel, 100);
+
+  if (track) {
+    let startX = 0;
+    track.addEventListener('touchstart', e => { startX = e.touches[0].clientX; }, { passive: true });
+    track.addEventListener('touchend', e => {
+      const diff = startX - e.changedTouches[0].clientX;
+      if (Math.abs(diff) > 50) {
+        if (diff > 0 && current < slides.length - visible) { current++; updateCarousel(); }
+        if (diff < 0 && current > 0) { current--; updateCarousel(); }
+      }
+    }, { passive: true });
+  }
+
+  // Hero parallax
+  const heroBg = document.getElementById('heroBg');
+  setTimeout(() => heroBg && heroBg.classList.add('loaded'), 100);
+  window.addEventListener('scroll', () => {
+    if (heroBg) heroBg.style.transform = `scale(1) translateY(${window.scrollY * 0.3}px)`;
+  }, { passive: true });
+
+  // Modal
+  function openModal() {
+    document.getElementById('modalOverlay').classList.add('open');
+    document.body.style.overflow = 'hidden';
+  }
+
+  function closeModal() {
+    document.getElementById('modalOverlay').classList.remove('open');
+    document.body.style.overflow = '';
+  }
+
+  // Close on overlay click
+  document.getElementById('modalOverlay').addEventListener('click', function(e) {
+    if (e.target === this) closeModal();
+  });
+
+  // Close on Escape
+  document.addEventListener('keydown', e => { if (e.key === 'Escape') closeModal(); });
+
+  // Chips — одиночный выбор в группе
+  function toggleChip(el, group) {
+    const siblings = el.parentElement.querySelectorAll('.chip');
+    siblings.forEach(c => c.classList.remove('active'));
+    el.classList.add('active');
+  }
+
+  // Конфиг
+  const TG_TOKEN   = '8658421628:AAErc0nKYJDNG6ItwGxYINuslJRwMu10qrc';
+  const TG_CHAT    = '1089304717';
+  const SHEETS_URL = 'https://script.google.com/macros/s/AKfycbwD9caCDyaThs3JUIfMgHt4KrYA3vQ18I7hufkm-tYPVjgU9nZ6nDIJxsS-Fi5J19sx8w/exec';
+
+  async function submitForm() {
+    const name    = document.getElementById('fieldName').value.trim();
+    const contact = document.getElementById('fieldContact').value.trim();
+    const car     = document.getElementById('fieldCar').value.trim();
+    const comment = document.getElementById('fieldComment').value.trim();
+
+    // Валидация
+    document.getElementById('fieldName').style.borderColor    = name    ? '#2a2a2a' : '#e03c2f';
+    document.getElementById('fieldContact').style.borderColor = contact ? '#2a2a2a' : '#e03c2f';
+    if (!name || !contact) return;
+
+    // Выбранные чипы
+    const allActive = [...document.querySelectorAll('.chip.active')];
+    const service = allActive.find(c => ['Полировка','Нанокерамика','Химчистка','Детейлинг под ключ','Озонирование','Двигатель'].includes(c.textContent))?.textContent || '—';
+    const time    = allActive.find(c => ['Утро 9–12','День 12–17','Вечер 17–20','Любое'].includes(c.textContent))?.textContent || '—';
+
+    const btn = document.getElementById('submitBtn');
+    btn.disabled = true;
+    btn.textContent = 'Отправка...';
+
+    const payload = { name, contact, car, service, time, comment };
+
+    // Текст для Telegram
+    const tgText = `🚗 *Новая заявка с сайта*\n\n` +
+      `👤 *Имя:* ${name}\n` +
+      `📱 *Контакт:* ${contact}\n` +
+      `🚘 *Авто:* ${car || '—'}\n` +
+      `🔧 *Услуга:* ${service}\n` +
+      `🕐 *Время:* ${time}\n` +
+      `💬 *Комментарий:* ${comment || '—'}`;
+
+    try {
+      // Отправляем параллельно в Telegram и Google Sheets
+      const [tgRes, sheetRes] = await Promise.allSettled([
+
+        fetch(`https://api.telegram.org/bot${TG_TOKEN}/sendMessage`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ chat_id: TG_CHAT, text: tgText, parse_mode: 'Markdown' })
+        }),
+
+        fetch(SHEETS_URL, {
+          method: 'POST',
+          mode: 'no-cors',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(payload)
+        })
+
+      ]);
+
+      // Проверяем Telegram
+      const tgOk = tgRes.status === 'fulfilled';
+
+      if (tgOk) {
+        document.getElementById('formView').style.display = 'none';
+        document.getElementById('successView').style.display = 'block';
+        setTimeout(closeModal, 3500);
+      } else {
+        throw new Error('Telegram error');
+      }
+
+    } catch(e) {
+      btn.disabled = false;
+      btn.textContent = 'Отправить заявку';
+      alert('Ошибка отправки. Напишите нам напрямую: @detdetailingbot');
+      console.error(e);
+    }
+  }
+</script>
+
+</body>
+</html>

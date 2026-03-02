@@ -1,0 +1,615 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Портфолио — BLACKCOAT Детейлинг</title>
+<meta name="description" content="Фото работ студии BLACKCOAT — полировка, нанокерамика, химчистка. Реальные результаты до и после.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Manrope:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --black: #0a0a0a;
+    --dark: #111111;
+    --card: #161616;
+    --border: #232323;
+    --gold: #c9a84c;
+    --gold-light: #e8c97a;
+    --white: #f0ede8;
+    --gray: #888;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--black);
+    color: var(--white);
+    font-family: 'Manrope', sans-serif;
+    overflow-x: hidden;
+  }
+
+  body::before {
+    content: '';
+    position: fixed; inset: 0;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E");
+    pointer-events: none; z-index: 1000; opacity: 0.4;
+  }
+
+  /* NAV */
+  nav {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 20px 48px;
+    background: rgba(10,10,10,0.96);
+    border-bottom: 1px solid var(--border);
+    backdrop-filter: blur(8px);
+  }
+  .logo { font-family: 'Bebas Neue', sans-serif; font-size: 28px; letter-spacing: 4px; color: var(--white); text-decoration: none; }
+  .logo span { color: var(--gold); }
+  .nav-back {
+    display: flex; align-items: center; gap: 8px;
+    color: var(--gray); font-size: 13px; font-weight: 500;
+    text-decoration: none; letter-spacing: 1px; text-transform: uppercase;
+    transition: color 0.2s;
+  }
+  .nav-back:hover { color: var(--gold); }
+  .nav-cta {
+    display: flex; align-items: center; gap: 8px;
+    background: var(--gold); color: var(--black);
+    padding: 10px 20px; border-radius: 2px;
+    font-size: 13px; font-weight: 700; letter-spacing: 1px;
+    text-transform: uppercase; text-decoration: none;
+    transition: background 0.2s;
+  }
+  .nav-cta:hover { background: var(--gold-light); }
+
+  /* HERO */
+  .page-hero {
+    padding: 140px 48px 64px;
+    border-bottom: 1px solid var(--border);
+    background: linear-gradient(to bottom, var(--dark), var(--black));
+    position: relative;
+    overflow: hidden;
+  }
+  .page-hero::after {
+    content: 'PORTFOLIO';
+    position: absolute; right: -20px; top: 50%; transform: translateY(-50%);
+    font-family: 'Bebas Neue', sans-serif; font-size: 160px;
+    color: rgba(201,168,76,0.04); letter-spacing: 8px; pointer-events: none;
+  }
+  .hero-tag {
+    font-size: 11px; letter-spacing: 3px; text-transform: uppercase;
+    color: var(--gold); font-weight: 600; margin-bottom: 16px;
+    display: flex; align-items: center; gap: 12px;
+  }
+  .hero-tag::before { content:''; width:32px; height:1px; background:var(--gold); }
+  .page-hero h1 {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: clamp(56px, 7vw, 100px);
+    line-height: 0.92; letter-spacing: 2px; margin-bottom: 20px;
+  }
+  .page-hero p { color: var(--gray); font-size: 16px; max-width: 480px; }
+
+  /* ФИЛЬТРЫ */
+  .filters-bar {
+    padding: 32px 48px;
+    background: var(--dark);
+    border-bottom: 1px solid var(--border);
+    position: sticky; top: 69px; z-index: 50;
+    backdrop-filter: blur(8px);
+  }
+  .filters-wrap {
+    display: flex; align-items: center; justify-content: space-between;
+    gap: 24px; flex-wrap: wrap;
+  }
+  .filter-tabs { display: flex; gap: 8px; flex-wrap: wrap; }
+  .filter-tab {
+    padding: 8px 20px;
+    border: 1px solid var(--border);
+    border-radius: 100px;
+    background: transparent;
+    color: var(--gray);
+    font-size: 13px; font-weight: 500;
+    font-family: 'Manrope', sans-serif;
+    letter-spacing: 0.5px;
+    cursor: pointer;
+    transition: all 0.2s;
+    white-space: nowrap;
+  }
+  .filter-tab:hover { border-color: var(--gold); color: var(--white); }
+  .filter-tab.active {
+    background: var(--gold); border-color: var(--gold);
+    color: var(--black); font-weight: 700;
+  }
+
+  .vk-status {
+    display: inline-flex; align-items: center; gap: 6px;
+    font-size: 11px; color: var(--gray);
+    padding: 6px 12px;
+    background: rgba(255,255,255,0.04);
+    border: 1px solid var(--border); border-radius: 100px;
+    white-space: nowrap;
+  }
+  .status-dot { width:6px; height:6px; border-radius:50%; background: var(--gold); }
+  .status-dot.live { background: #4caf50; animation: pulse 2s infinite; }
+  .status-dot.error { background: #e03c2f; }
+  @keyframes pulse { 0%,100%{opacity:1}50%{opacity:0.3} }
+
+  /* СЕТКА */
+  .portfolio-wrap { padding: 48px 48px 80px; }
+
+  .portfolio-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 8px;
+  }
+
+  /* Паттерн: каждая 7-я — широкая, каждая 11-я — высокая */
+  .photo-card {
+    position: relative; overflow: hidden;
+    border-radius: 3px; background: var(--card);
+    border: 1px solid var(--border);
+    cursor: pointer;
+    aspect-ratio: 1;
+    transition: border-color 0.3s;
+  }
+  .photo-card.wide { grid-column: span 2; aspect-ratio: 2/1; }
+  .photo-card.tall { grid-row: span 2; aspect-ratio: 1/2; }
+  .photo-card:hover { border-color: rgba(201,168,76,0.4); }
+
+  .photo-card img {
+    width: 100%; height: 100%;
+    object-fit: cover; display: block;
+    transition: transform 0.5s, filter 0.3s;
+    filter: brightness(0.82);
+  }
+  .photo-card:hover img { transform: scale(1.06); filter: brightness(1); }
+
+  /* Скелетон */
+  .photo-card.skeleton-card {
+    background: linear-gradient(90deg, #1a1a1a 25%, #222 50%, #1a1a1a 75%);
+    background-size: 200% 100%;
+    animation: shimmer 1.5s infinite;
+  }
+  @keyframes shimmer { 0%{background-position:200% 0} 100%{background-position:-200% 0} }
+
+  .photo-overlay {
+    position: absolute; inset: 0;
+    background: linear-gradient(to top, rgba(10,10,10,0.9) 0%, transparent 50%);
+    opacity: 0; transition: opacity 0.3s;
+    display: flex; flex-direction: column;
+    justify-content: flex-end; padding: 16px;
+  }
+  .photo-card:hover .photo-overlay { opacity: 1; }
+  .photo-overlay-tag {
+    font-size: 10px; font-weight: 700;
+    letter-spacing: 2px; text-transform: uppercase;
+    color: var(--gold); margin-bottom: 4px;
+  }
+  .photo-overlay-text { font-size: 13px; color: var(--white); font-weight: 500; }
+
+  /* Категория-бейдж */
+  .photo-badge {
+    position: absolute; top: 12px; left: 12px;
+    background: rgba(10,10,10,0.7);
+    border: 1px solid rgba(201,168,76,0.3);
+    color: var(--gold); font-size: 10px;
+    font-weight: 700; letter-spacing: 1.5px;
+    text-transform: uppercase; padding: 4px 10px;
+    border-radius: 2px; backdrop-filter: blur(4px);
+  }
+
+  /* Загрузить ещё */
+  .load-more-section {
+    display: flex; flex-direction: column;
+    align-items: center; gap: 16px; margin-top: 48px;
+  }
+  .progress-bar {
+    width: 240px; height: 2px;
+    background: var(--border); border-radius: 2px; overflow: hidden;
+  }
+  .progress-fill {
+    height: 100%; background: var(--gold);
+    border-radius: 2px; transition: width 0.4s;
+  }
+  .progress-label { font-size: 13px; color: var(--gray); }
+  .progress-label span { color: var(--gold); font-weight: 600; }
+
+  .btn-load {
+    display: inline-flex; align-items: center; gap: 10px;
+    border: 1px solid var(--border);
+    background: transparent; color: var(--white);
+    padding: 14px 36px; border-radius: 2px;
+    font-size: 13px; font-weight: 600;
+    letter-spacing: 1px; text-transform: uppercase;
+    cursor: pointer; transition: all 0.2s;
+    font-family: 'Manrope', sans-serif;
+  }
+  .btn-load:hover { border-color: var(--gold); color: var(--gold); }
+  .btn-load:disabled { opacity: 0.3; cursor: not-allowed; }
+
+  .all-loaded {
+    font-size: 13px; color: var(--gray);
+    display: none; text-align: center;
+  }
+
+  /* ЛАЙТБОКС */
+  .lightbox {
+    position: fixed; inset: 0;
+    background: rgba(0,0,0,0.97); z-index: 999;
+    display: none; align-items: center; justify-content: center;
+    padding: 20px;
+  }
+  .lightbox.active { display: flex; }
+  .lightbox-inner {
+    position: relative; max-width: 1000px;
+    width: 100%; max-height: 90vh;
+  }
+  .lightbox img {
+    width: 100%; height: auto;
+    max-height: 82vh; object-fit: contain;
+    border-radius: 3px; display: block;
+  }
+  .lightbox-close {
+    position: absolute; top: -48px; right: 0;
+    background: none; border: none; color: var(--gray);
+    font-size: 32px; cursor: pointer; transition: color 0.2s;
+  }
+  .lightbox-close:hover { color: var(--white); }
+  .lightbox-nav {
+    position: absolute; top: 50%; transform: translateY(-50%);
+    background: rgba(0,0,0,0.7); border: 1px solid var(--border);
+    color: var(--white); width: 48px; height: 48px;
+    border-radius: 50%; font-size: 24px; cursor: pointer;
+    transition: all 0.2s; display: flex; align-items: center; justify-content: center;
+  }
+  .lightbox-nav:hover { background: rgba(201,168,76,0.2); border-color: var(--gold); color: var(--gold); }
+  .lightbox-nav.prev { left: -64px; }
+  .lightbox-nav.next { right: -64px; }
+  .lightbox-footer {
+    display: flex; align-items: center; justify-content: space-between;
+    margin-top: 16px;
+  }
+  .lightbox-caption { font-size: 14px; color: var(--gray); }
+  .lightbox-counter { font-size: 13px; color: var(--gray); }
+
+  /* CTA внизу */
+  .portfolio-cta {
+    background: var(--dark); border-top: 1px solid var(--border);
+    padding: 80px 48px; text-align: center;
+  }
+  .cta-title { font-family: 'Bebas Neue', sans-serif; font-size: 56px; margin-bottom: 16px; }
+  .cta-sub { color: var(--gray); font-size: 15px; margin-bottom: 40px; }
+  .btn-cta-gold {
+    display: inline-flex; align-items: center; gap: 10px;
+    background: var(--gold); color: var(--black);
+    padding: 18px 40px; border-radius: 2px;
+    font-weight: 700; font-size: 15px; letter-spacing: 1px;
+    text-transform: uppercase; text-decoration: none;
+    transition: all 0.2s;
+  }
+  .btn-cta-gold:hover { background: var(--gold-light); transform: translateY(-2px); box-shadow: 0 12px 40px rgba(201,168,76,0.3); }
+
+  /* MOBILE */
+  @media (max-width: 900px) {
+    nav { padding: 16px 20px; }
+    .page-hero { padding: 120px 24px 48px; }
+    .filters-bar { padding: 20px 24px; top: 61px; }
+    .portfolio-wrap { padding: 32px 24px 60px; }
+    .portfolio-grid { grid-template-columns: repeat(2, 1fr); }
+    .photo-card.tall { grid-row: span 1; aspect-ratio: 1; }
+    .lightbox-nav.prev { left: -10px; }
+    .lightbox-nav.next { right: -10px; }
+    .portfolio-cta { padding: 60px 24px; }
+  }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <a href="detailing-demo.html" class="logo">BLACK<span>COAT</span></a>
+  <a href="detailing-demo.html" class="nav-back">
+    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
+    На главную
+  </a>
+  <a href="detailing-demo.html#booking" class="nav-cta">Записаться</a>
+</nav>
+
+<!-- HERO -->
+<div class="page-hero">
+  <div class="hero-tag">Наши работы</div>
+  <h1>ПОРТФОЛИО</h1>
+  <p>Реальные работы студии — полировка, керамика, химчистка. Без фотошопа и фильтров.</p>
+</div>
+
+<!-- ФИЛЬТРЫ -->
+<div class="filters-bar">
+  <div class="filters-wrap">
+    <div class="filter-tabs" id="filterTabs">
+      <button class="filter-tab active" data-cat="all" onclick="filterPhotos('all', this)">Все работы</button>
+      <button class="filter-tab" data-cat="polish" onclick="filterPhotos('polish', this)">Полировка</button>
+      <button class="filter-tab" data-cat="ceramic" onclick="filterPhotos('ceramic', this)">Нанокерамика</button>
+      <button class="filter-tab" data-cat="interior" onclick="filterPhotos('interior', this)">Химчистка</button>
+      <button class="filter-tab" data-cat="detailing" onclick="filterPhotos('detailing', this)">Детейлинг</button>
+    </div>
+    <div class="vk-status">
+      <div class="status-dot" id="statusDot"></div>
+      <span id="statusText">Загрузка...</span>
+    </div>
+  </div>
+</div>
+
+<!-- СЕТКА -->
+<div class="portfolio-wrap">
+  <div class="portfolio-grid" id="portfolioGrid"></div>
+
+  <div class="load-more-section" id="loadMoreSection" style="display:none">
+    <div class="progress-bar">
+      <div class="progress-fill" id="progressFill"></div>
+    </div>
+    <div class="progress-label">Показано <span id="shownCount">0</span> из <span id="totalCount">0</span></div>
+    <button class="btn-load" id="btnLoad" onclick="loadMore()">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg>
+      Загрузить ещё
+    </button>
+    <div class="all-loaded" id="allLoaded">✓ Все работы загружены</div>
+  </div>
+</div>
+
+<!-- CTA -->
+<div class="portfolio-cta">
+  <div class="cta-title">ПОНРАВИЛИСЬ РАБОТЫ?</div>
+  <div class="cta-sub">Запишитесь на детейлинг прямо сейчас — ответим в Telegram за 15 минут</div>
+  <a href="detailing-demo.html#booking" class="btn-cta-gold">
+    Записаться в Telegram
+    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+  </a>
+</div>
+
+<!-- ЛАЙТБОКС -->
+<div class="lightbox" id="lightbox" onclick="closeLB(event)">
+  <div class="lightbox-inner">
+    <button class="lightbox-close" onclick="closeLB()">&times;</button>
+    <button class="lightbox-nav prev" onclick="lbNav(-1)">&#8249;</button>
+    <button class="lightbox-nav next" onclick="lbNav(1)">&#8250;</button>
+    <img id="lbImg" src="" alt="">
+    <div class="lightbox-footer">
+      <div class="lightbox-caption" id="lbCaption"></div>
+      <div class="lightbox-counter" id="lbCounter"></div>
+    </div>
+  </div>
+</div>
+
+<script>
+// ============================================
+// КОНФИГ — замени когда будет реальный клиент
+// ============================================
+const CFG = {
+  mode: 'demo',            // 'demo' или 'vk'
+  token: 'ВАШ_ТОКЕН',
+  ownerId: '-123456789',
+  albumId: '123456789',
+  batchSize: 12,
+};
+
+// ============================================
+// ДЕМО-ДАННЫЕ
+// ============================================
+const DEMO = [
+  { url: 'https://images.unsplash.com/photo-1607860108855-64acf2078ed9?w=800&q=80', text: 'Детейлинг студия', cat: 'detailing' },
+  { url: 'https://images.unsplash.com/photo-1615906655593-ad0386982a0f?w=800&q=80', text: 'Абразивная полировка', cat: 'polish' },
+  { url: 'https://images.unsplash.com/photo-1619642751034-765dfdf7c58e?w=800&q=80', text: 'Блеск после полировки', cat: 'polish' },
+  { url: 'https://images.unsplash.com/photo-1600880292203-757bb62b4baf?w=800&q=80', text: 'Нанесение керамики', cat: 'ceramic' },
+  { url: 'https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=800&q=80', text: 'Чистка сидений', cat: 'interior' },
+  { url: 'https://images.unsplash.com/photo-1503376780353-7e6692767b70?w=800&q=80', text: 'Детейлинг под ключ', cat: 'detailing' },
+  { url: 'https://images.unsplash.com/photo-1493238792000-8113da705763?w=800&q=80', text: 'Чёрный кузов', cat: 'polish' },
+  { url: 'https://images.unsplash.com/photo-1486262715619-67b85e0b08d3?w=800&q=80', text: 'Детейлинг двигателя', cat: 'detailing' },
+  { url: 'https://images.unsplash.com/photo-1631729371254-42c2892f0e6e?w=800&q=80', text: 'Работа мастера', cat: 'polish' },
+  { url: 'https://images.unsplash.com/photo-1594897030264-ab7d87efc473?w=800&q=80', text: 'Нанесение покрытия', cat: 'ceramic' },
+  { url: 'https://images.unsplash.com/photo-1449965408869-eaa3f722e40d?w=800&q=80', text: 'Интерьер авто', cat: 'interior' },
+  { url: 'https://images.unsplash.com/photo-1547038577-da80abbc4f19?w=800&q=80', text: 'Чистый салон', cat: 'interior' },
+  { url: 'https://images.unsplash.com/photo-1619405399517-d7fce0f13302?w=800&q=80', text: 'Финальный результат', cat: 'ceramic' },
+  { url: 'https://images.unsplash.com/photo-1580274455191-1c62238fa333?w=800&q=80', text: 'Спорткар', cat: 'detailing' },
+  { url: 'https://images.unsplash.com/photo-1511919884226-fd3cad34687c?w=800&q=80', text: 'Детали кузова', cat: 'polish' },
+  { url: 'https://images.unsplash.com/photo-1502877338535-766e1452684a?w=800&q=80', text: 'Красный автомобиль', cat: 'detailing' },
+  { url: 'https://images.unsplash.com/photo-1552519507-da3b142c6e3d?w=800&q=80', text: 'Желтый спорткар', cat: 'ceramic' },
+  { url: 'https://images.unsplash.com/photo-1526726538690-5cbf956ae2fd?w=800&q=80', text: 'Работа в студии', cat: 'polish' },
+  { url: 'https://images.unsplash.com/photo-1489824904134-891ab64532f1?w=800&q=80', text: 'Полированный кузов', cat: 'polish' },
+  { url: 'https://images.unsplash.com/photo-1583121274602-3e2820c69888?w=800&q=80', text: 'Суперкар', cat: 'ceramic' },
+];
+
+const CATS = {
+  all: 'Все работы',
+  polish: 'Полировка',
+  ceramic: 'Нанокерамика',
+  interior: 'Химчистка',
+  detailing: 'Детейлинг',
+};
+
+let allPhotos = [];
+let filtered = [];
+let shown = 0;
+let activeCat = 'all';
+let lbIndex = 0;
+
+// ============================================
+// INIT
+// ============================================
+async function init() {
+  const dot = document.getElementById('statusDot');
+  const txt = document.getElementById('statusText');
+
+  if (CFG.mode === 'demo') {
+    dot.className = 'status-dot';
+    txt.textContent = 'Демо-режим';
+    allPhotos = DEMO;
+    applyFilter('all');
+  } else {
+    dot.className = 'status-dot';
+    txt.textContent = 'ВКонтакте...';
+    await loadVK();
+  }
+}
+
+async function loadVK() {
+  const dot = document.getElementById('statusDot');
+  const txt = document.getElementById('statusText');
+  try {
+    const url = `https://api.vk.com/method/photos.get?owner_id=${CFG.ownerId}&album_id=${CFG.albumId}&count=200&photo_sizes=1&rev=1&access_token=${CFG.token}&v=5.131`;
+    const res = await fetch(url);
+    const data = await res.json();
+    if (data.error) throw new Error(data.error.error_msg);
+
+    allPhotos = data.response.items.map(p => {
+      const sizes = p.sizes.sort((a,b) => b.width - a.width);
+      return { url: sizes[0].url, text: p.text || '', cat: 'all' };
+    });
+
+    dot.className = 'status-dot live';
+    txt.textContent = `ВКонтакте · ${allPhotos.length} фото`;
+    applyFilter('all');
+  } catch(e) {
+    dot.className = 'status-dot error';
+    txt.textContent = `Ошибка: ${e.message}`;
+    allPhotos = DEMO;
+    applyFilter('all');
+  }
+}
+
+// ============================================
+// ФИЛЬТР
+// ============================================
+function filterPhotos(cat, btn) {
+  activeCat = cat;
+  document.querySelectorAll('.filter-tab').forEach(t => t.classList.remove('active'));
+  btn.classList.add('active');
+  applyFilter(cat);
+}
+
+function applyFilter(cat) {
+  filtered = cat === 'all' ? [...allPhotos] : allPhotos.filter(p => p.cat === cat);
+  shown = 0;
+  document.getElementById('portfolioGrid').innerHTML = '';
+  loadMore();
+}
+
+// ============================================
+// РЕНДЕР
+// ============================================
+function loadMore() {
+  const btn = document.getElementById('btnLoad');
+  const batch = filtered.slice(shown, shown + CFG.batchSize);
+  if (!batch.length) return;
+
+  btn.disabled = true;
+
+  batch.forEach((photo, i) => {
+    const idx = shown + i;
+    const card = document.createElement('div');
+
+    // Паттерн широких карточек
+    const isWide = idx % 7 === 0 && idx > 0;
+    const isTall = idx % 11 === 5;
+    card.className = 'photo-card' + (isWide ? ' wide' : '') + (isTall && !isWide ? ' tall' : '');
+    card.className += ' skeleton-card';
+    card.onclick = () => openLB(idx);
+
+    const img = document.createElement('img');
+    img.src = photo.url;
+    img.alt = photo.text || 'Работа студии';
+    img.loading = 'lazy';
+    img.onload = () => card.classList.remove('skeleton-card');
+    img.onerror = () => card.classList.remove('skeleton-card');
+
+    const overlay = document.createElement('div');
+    overlay.className = 'photo-overlay';
+    overlay.innerHTML = `
+      <div class="photo-overlay-tag">${CATS[photo.cat] || ''}</div>
+      ${photo.text ? `<div class="photo-overlay-text">${photo.text}</div>` : ''}
+    `;
+
+    if (photo.cat && photo.cat !== 'all') {
+      const badge = document.createElement('div');
+      badge.className = 'photo-badge';
+      badge.textContent = CATS[photo.cat];
+      card.appendChild(badge);
+    }
+
+    card.appendChild(img);
+    card.appendChild(overlay);
+    document.getElementById('portfolioGrid').appendChild(card);
+  });
+
+  shown += batch.length;
+  updateUI();
+  setTimeout(() => { btn.disabled = false; }, 300);
+}
+
+function updateUI() {
+  const section = document.getElementById('loadMoreSection');
+  const fill = document.getElementById('progressFill');
+  const allLoaded = document.getElementById('allLoaded');
+  const btn = document.getElementById('btnLoad');
+
+  document.getElementById('shownCount').textContent = shown;
+  document.getElementById('totalCount').textContent = filtered.length;
+
+  const pct = filtered.length ? (shown / filtered.length * 100) : 100;
+  fill.style.width = pct + '%';
+
+  section.style.display = 'flex';
+
+  if (shown >= filtered.length) {
+    btn.style.display = 'none';
+    allLoaded.style.display = 'block';
+  } else {
+    btn.style.display = 'inline-flex';
+    allLoaded.style.display = 'none';
+  }
+}
+
+// ============================================
+// ЛАЙТБОКС
+// ============================================
+function openLB(idx) {
+  lbIndex = idx;
+  updateLB();
+  document.getElementById('lightbox').classList.add('active');
+  document.body.style.overflow = 'hidden';
+}
+
+function updateLB() {
+  const photo = filtered[lbIndex];
+  document.getElementById('lbImg').src = photo.url;
+  document.getElementById('lbCaption').textContent = photo.text || '';
+  document.getElementById('lbCounter').textContent = `${lbIndex + 1} / ${filtered.length}`;
+
+  // Подгружаем ещё если близко к концу
+  if (lbIndex >= shown - 2 && shown < filtered.length) loadMore();
+}
+
+function closeLB(e) {
+  if (e && e.target !== document.getElementById('lightbox') && !e.target.classList.contains('lightbox-close')) return;
+  document.getElementById('lightbox').classList.remove('active');
+  document.body.style.overflow = '';
+}
+
+function lbNav(dir) {
+  lbIndex = (lbIndex + dir + filtered.length) % filtered.length;
+  updateLB();
+}
+
+document.addEventListener('keydown', e => {
+  const lb = document.getElementById('lightbox');
+  if (!lb.classList.contains('active')) return;
+  if (e.key === 'ArrowRight') lbNav(1);
+  if (e.key === 'ArrowLeft') lbNav(-1);
+  if (e.key === 'Escape') { lb.classList.remove('active'); document.body.style.overflow = ''; }
+});
+
+init();
+</script>
+</body>
+</html>
